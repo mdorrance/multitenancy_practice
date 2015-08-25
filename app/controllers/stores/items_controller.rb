@@ -1,13 +1,11 @@
-class Stores::ItemsController < ApplicationController
+class Stores::ItemsController < Stores::StoresController
   def index
-    store = Store.find_by(url: params[:store])
-    @items = store.items
+    @items = current_store.items
   end
 
   def show
-    store = Store.find_by(url: params[:store])
-    @item = store.items.find_by(id: params[:id])
+    @item = current_store.items.find_by(id: params[:id])
 
-    redirect_to store_items_path(store: store.url), notice: "Item not found" unless @item # or if @item.nil?
+    redirect_to store_items_path(store: current_store.url), notice: "Item not found" unless @item # or if @item.nil?
   end
 end
